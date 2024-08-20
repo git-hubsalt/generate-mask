@@ -14,11 +14,7 @@ def get_mask(image, cloth_type):
         device="cpu",
     )
 
-    print("this is automasker: ", automasker)
-
     mask = automasker(image, cloth_type)["mask"]
-
-    print("this is mask: ", mask)
 
     output_dir = "./mask_results"
     os.makedirs(output_dir, exist_ok=True)
