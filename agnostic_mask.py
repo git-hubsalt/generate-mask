@@ -14,9 +14,6 @@ load_dotenv()
 AWS_ACCESS_KEY_ID = str(os.environ["ACCESS_KEY_ID"])
 AWS_SECRET_ACCESS_KEY = str(os.environ["SECRET_ACCESS_KEY"])
 
-# AWS_ACCESS_KEY_ID = "AKIAYHJAM773HL74Z4L6"
-# AWS_SECRET_ACCESS_KEY = "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"
-
 print(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
 s3 = boto3.client(
