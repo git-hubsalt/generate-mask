@@ -7,14 +7,13 @@ import base64
 from PIL import Image
 from io import BytesIO
 import boto3
-from dotenv import load_dotenv
 
-load_dotenv()
+# from dotenv import load_dotenv
+
+# load_dotenv()
 
 AWS_ACCESS_KEY_ID = str(os.environ["ACCESS_KEY_ID"])
 AWS_SECRET_ACCESS_KEY = str(os.environ["SECRET_ACCESS_KEY"])
-
-print(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
 s3 = boto3.client(
     "s3",
@@ -35,7 +34,7 @@ def save_and_upload_s3(mask, username, cloth_type, start_timestamp):
 
     filename = os.path.join(output_dir, new_image_name)
     bucket_name = "githubsalt-bucket"
-    object_name = f"{username}/{start_timestamp}/{cloth_type}.png"
+    object_name = f"{username}/masking/{start_timestamp}/{cloth_type}.png"
 
     s3.upload_file(filename, bucket_name, object_name)
 
@@ -90,12 +89,15 @@ def handler(event, context):
 if __name__ == "__main__":
     start = time.time()
 
-    with open("mantest.jpg", "rb") as image_file:
+    with open(
+        "C:/Users/user/OneDrive/documents/Dev/new_cat/test_dataset/test/image/jacket.jpg",
+        "rb",
+    ) as image_file:
         encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
 
     img = encoded_image
 
     for cloth_type in ["upper", "lower", "overall", "inner", "outer"]:
-        get_mask(img, cloth_type, username="jongmin")
+        get_mask(img, cloth_type, username="test")
 
     print("Time taken: ", time.time() - start)

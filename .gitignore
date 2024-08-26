@@ -2,3 +2,4 @@
 densepose_/
 mask_results/
 *.DS_Store
+test.py
