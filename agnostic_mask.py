@@ -12,6 +12,7 @@ import boto3
 AWS_ACCESS_KEY_ID = str(os.environ["ACCESS_KEY_ID"])
 AWS_SECRET_ACCESS_KEY = str(os.environ["SECRET_ACCESS_KEY"])
 
+
 s3 = boto3.client(
     "s3",
     region_name="ap-northeast-2",
@@ -22,7 +23,6 @@ s3 = boto3.client(
 
 
 def save_and_upload_s3(mask, username, cloth_type, start_timestamp):
-
     output_dir = "/tmp/mask_results"
     os.makedirs(output_dir, exist_ok=True)
 
@@ -58,7 +58,6 @@ def get_mask(image, cloth_type, username, start_timestamp):
 
 def handler(event, context):
     start = time.time()
-    # start_timestamp = time.strftime("%Y%m%d-%H%M%S", time.localtime())
 
     body = event["body-json"]
 
@@ -68,6 +67,7 @@ def handler(event, context):
 
     response = requests.get(row_image_url)
     if response.status_code == 200:
+        print("Image downloaded successfully")
         row_image = Image.open(BytesIO(response.content))
 
     for cloth_type in ["upper", "lower", "overall", "inner", "outer"]:
@@ -89,13 +89,7 @@ if __name__ == "__main__":
     start = time.time()
     start_timestamp = time.strftime("%Y%m%d-%H%M%S", time.localtime())
 
-    with open(
-        "C:/Users/user/OneDrive/documents/Dev/new_cat/test_dataset/test/image/jacket.jpg",
-        "rb",
-    ) as image_file:
-        encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
-
-    img = encoded_image
+    img = Image.open("man_test.jpg")
 
     for cloth_type in ["upper", "lower", "overall", "inner", "outer"]:
         get_mask(img, cloth_type, username="test", start_timestamp=start_timestamp)

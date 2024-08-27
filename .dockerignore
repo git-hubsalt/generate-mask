@@ -1,0 +1,9 @@
+*.png
+*.jpg
+test_agnostic_mask.py
+/mask_results
+/densepose_
+*.pyc
+*.DS_Store
+/.vscode
+*.md
