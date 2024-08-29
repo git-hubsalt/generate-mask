@@ -59,7 +59,9 @@ def get_mask(image, cloth_type, username, start_timestamp):
 def handler(event, context):
     start = time.time()
 
-    body = event["body-json"]
+    upper_body = event["body"]
+    upper_body = json.loads(upper_body)
+    body = upper_body["body-json"]
 
     username = body["username"]
     row_image_url = body["row_image_url"]
