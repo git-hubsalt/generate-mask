@@ -11,7 +11,7 @@ import boto3
 
 AWS_ACCESS_KEY_ID = str(os.environ["ACCESS_KEY_ID"])
 AWS_SECRET_ACCESS_KEY = str(os.environ["SECRET_ACCESS_KEY"])
-
+QUEUE_URL = os.environ["SQS_URL"]
 
 s3 = boto3.client(
     "s3",
@@ -19,6 +19,13 @@ s3 = boto3.client(
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
     endpoint_url="https://s3.ap-northeast-2.amazonaws.com/",
+)
+
+sqs = boto3.client(
+    "sqs",
+    region_name="ap-northeast-2",
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
 )
 
 
@@ -56,6 +63,27 @@ def get_mask(image, cloth_type, username, start_timestamp):
     )
 
 
+def send_sqs_message(username, timestamp):
+    message_body = {
+        "username": username,
+        "initial_timestamp": timestamp,
+    }
+
+    try:
+        response = sqs.send_message(
+            QueueUrl=QUEUE_URL, MessageBody=json.dumps(message_body)
+        )
+        print(f"Message sent to SQS with MessageId: {response['MessageId']}")
+
+        return {"statusCode": 200, "body": json.dumps("Message sent successfully!")}
+    except Exception as e:
+        print(f"Error sending message: {str(e)}")
+        return {
+            "statusCode": 500,
+            "body": json.dumps("Error sending message to SQS"),
+        }
+
+
 def handler(event, context):
     start = time.time()
 
@@ -79,6 +107,8 @@ def handler(event, context):
             username=username,
             start_timestamp=timestamp,
         )
+
+    send_sqs_message(username, timestamp)
 
     result = f"Hello, {username}"
 
