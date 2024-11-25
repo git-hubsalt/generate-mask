@@ -24,3 +24,10 @@
 > - Calls the Lambda function from the server  
 > - The `get_mask` method iterates through the keywords `upper`, `lower`, `overall`, `inner`, and `outer` to generate 5 masked images  
 > - The results are saved in S3, and a completion message is stored in SQS  
+
+## 인퍼런스 결과 / Inference Reuslt
+### Input
+<img src="demo_data/test.jpg" width="768" height="1024"/>  
+
+### Result
+<img src="demo_data/result.png" width="768" height="1024"/>  
