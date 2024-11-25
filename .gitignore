@@ -4,7 +4,5 @@ mask_results/
 *.DS_Store
 test.py
 test_agnostic_mask.py
-*.png
-*.jpg
 *.json
 *.ipynb

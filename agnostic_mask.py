@@ -87,9 +87,17 @@ def send_sqs_message(username, timestamp):
 def handler(event, context):
     start = time.time()
 
-    upper_body = event["body"]
-    upper_body = json.loads(upper_body)
-    body = upper_body["body-json"]
+    print("this is event: ", event)
+
+    if "body" in event:
+        upper_body = event["body"]
+    else:
+        print("before: ", event)
+        print("type: ", type(event))
+        # upper_body = json.loads(event)
+        # print("after: ", upper_body)
+        body = event["body-json"]
+        print("this is body: ", body)
 
     username = body["username"]
     row_image_url = body["row_image_url"]
