@@ -121,7 +121,7 @@ if __name__ == "__main__":
     start = time.time()
     start_timestamp = time.strftime("%Y%m%d-%H%M%S", time.localtime())
 
-    img = Image.open("man_test.jpg")
+    img = Image.open("demo_data/test.jpg")
 
     for cloth_type in ["upper", "lower", "overall", "inner", "outer"]:
         get_mask(img, cloth_type, username="test", start_timestamp=start_timestamp)
