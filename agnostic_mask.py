@@ -4,7 +4,6 @@ from huggingface_hub import snapshot_download
 import requests
 from model.cloth_masker import AutoMasker
 import json
-import base64
 from PIL import Image
 from io import BytesIO
 import boto3
@@ -84,20 +83,13 @@ def send_sqs_message(username, timestamp):
         }
 
 
-def handler(event, context):
+def handler(event):
     start = time.time()
 
-    print("this is event: ", event)
-
     if "body" in event:
-        upper_body = event["body"]
+        body = event["body"]
     else:
-        print("before: ", event)
-        print("type: ", type(event))
-        # upper_body = json.loads(event)
-        # print("after: ", upper_body)
         body = event["body-json"]
-        print("this is body: ", body)
 
     username = body["username"]
     row_image_url = body["row_image_url"]
